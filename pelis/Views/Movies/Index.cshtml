@@ -8,18 +8,18 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Title</th>
-            <th>Year</th>
-            <th>Director</th>
+            <th>@Html.DisplayNameFor(model => model.Title)</th>
+            <th>@Html.DisplayNameFor(model => model.ReleaseYear)</th>
+            <th>@Html.DisplayNameFor(model => model.Director)</th>
         </tr>
     </thead>
     <tbody>
     @foreach (var movie in Model)
     {
         <tr>
-            <td>@Html.DisplayFor(modelItem => movie.Title)</td>
-            <td>@Html.DisplayFor(modelItem => movie.ReleaseYear)</td>
-            <td>@Html.DisplayFor(modelItem => movie.Director)</td>
+            <td>@movie.Title</td>
+            <td>@movie.ReleaseYear</td>
+            <td>@movie.Director</td>
         </tr>
     }
     </tbody>

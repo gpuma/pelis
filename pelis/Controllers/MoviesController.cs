@@ -23,5 +23,27 @@ namespace pelis.Controllers
         {
             return View(await _context.Movies.ToListAsync());
         }
+
+        [HttpGet("[action]")]
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost("[action]")]
+        [ValidateAntiForgeryToken]
+        //form data is bound to argument automatically
+        public async Task<IActionResult> Add(Movie movie)
+        {
+            if(!ModelState.IsValid)
+            {
+                //returning the page with the same data
+                //for an unsuccessful post
+                return View(movie);
+            }
+            _context.Add(movie);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

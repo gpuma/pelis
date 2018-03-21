@@ -19,7 +19,7 @@ namespace pelis.Models
         public string Genre { get; set; }
 
         [Range(1800, 3000)]
-        [Required]
+        [Display(Name = "Year")]
         public int ReleaseYear { get; set; }
         
         [Required]
