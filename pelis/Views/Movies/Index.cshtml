@@ -23,9 +23,7 @@
             <td>@movie.ReleaseYear</td>
             <td>@movie.Director</td>
             <td>
-                @*<a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.ID">Details</a>*@
-                @* TODO: quick fix. change this *@
-                <a href="Movies/@movie.ID">Details</a>
+                <a asp-controller="Movies" asp-action="Details" asp-route-movieId="@movie.ID">Details</a>
             </td>
         </tr>
     }

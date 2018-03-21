@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,7 @@ namespace pelis.Controllers
             }
             var vm = new ActorDetailsViewModel();
             // get the actors in a nice collection for the View
+            // TODO: maybe move this to the ViewModel?
             actor.Movies = actor.ActorMovies.Select(x => x.Movie);
             vm.Actor = actor;
             //gets all movies where the actor doesn't appear in
@@ -75,12 +77,24 @@ namespace pelis.Controllers
             {
                 return NotFound();
             }
-            //TODO: check if movie has been added already to the actor
+            //trying to add a movie already asssigned to an actor
+            if (MovieActorPairExists(actorId, SelectedMovieId))
+            {
+                return BadRequest();
+            }
 
             _context.MovieActors.Add(new MovieActor { ActorId = actorId, MovieId = SelectedMovieId });
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Details), actorId);
+            return RedirectToAction(nameof(Index), actorId);
+        }
+
+        public bool MovieActorPairExists(int actorId, int movieId)
+        {
+            var moviePair = _context.MovieActors.SingleOrDefault(
+                ma => ma.ActorId == actorId && ma.MovieId == movieId
+            );
+            return moviePair != null;
         }
 
         //GET: actors/add

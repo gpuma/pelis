@@ -21,8 +21,7 @@
             <td>@actor.FullName</td>
             <td>@actor.Age</td>
             <td>
-                @* TODO: quick fix. change this *@
-                <a href="Actors/@actor.ID">Details</a>
+                <a asp-controller="Actors" asp-action="Details" asp-route-actorId="@actor.ID">Details</a>
             </td>
         </tr>
     }
