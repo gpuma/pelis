@@ -16,6 +16,7 @@ namespace pelis.Models
 
         [Display(Name = "Date of birth")]
         [Required]
+        [DataType(DataType.Date)]
         public DateTime DOB { get; set; }
 
         [NotMapped]
