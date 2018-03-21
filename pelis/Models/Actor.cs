@@ -29,12 +29,8 @@ namespace pelis.Models
         public IEnumerable<MovieActor> ActorMovies { get; set; }
 
         //for View purposes
+        //MAYBE: move to ViewModel?
         [NotMapped]
         public IEnumerable<Movie> Movies { get; set; }
-        //TODO: move the following to a ViewModel
-        [NotMapped]
-        public IEnumerable<Movie> AllMovies { get; set; }
-        [NotMapped]
-        public int SelectedMovieId { get; set; }
     }
 }

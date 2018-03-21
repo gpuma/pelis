@@ -1,13 +1,13 @@
-﻿@model pelis.Models.Actor
+﻿@model pelis.Models.ActorDetailsViewModel
 
 @{
-    ViewData["Title"] = Model.FullName;
+    ViewData["Title"] = Model.Actor.FullName;
 }
 
-<h2>@Model.FullName</h2>
+<h2>@Model.Actor.FullName</h2>
 <h3>Starring in: </h3>
 <ul>
-@foreach(var movie in Model.Movies)
+@foreach(var movie in Model.Actor.Movies)
 {
     <li>@($"{movie.Title} ({movie.ReleaseYear})")</li>
 }

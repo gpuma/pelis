@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,13 +38,13 @@ namespace pelis.Controllers
             {
                 return NotFound();
             }
-            
+            var vm = new ActorDetailsViewModel();
             // get the actors in a nice collection for the View
             actor.Movies = actor.ActorMovies.Select(x => x.Movie);
-            //TODO: probably shouldn't go here
+            vm.Actor = actor;
             //gets all movies where the actor doesn't appear in
-            actor.AllMovies = await _context.Movies.Except(actor.Movies).ToListAsync();
-            return View(actor);
+            vm.AllMovies = await _context.Movies.Except(actor.Movies).ToListAsync();
+            return View(vm);
         }
 
         //POST: /actors/add
