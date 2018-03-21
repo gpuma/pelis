@@ -43,6 +43,9 @@ namespace pelis.Controllers
             
             // get the actors in a nice collection for the View
             actor.Movies = actor.ActorMovies.Select(x => x.Movie);
+            //TODO: probably shouldn't go here
+            //gets all movies where the actor doesn't appear in
+            actor.AllMovies = await _context.Movies.Except(actor.Movies).ToListAsync();
             return View(actor);
         }
 
@@ -63,13 +66,30 @@ namespace pelis.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //GET: actor/add
+        //POST: /actors/{actorId}/AddMovieToActor
+        [HttpPost("{actorId}/[action]")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddMovieToActor(int actorId, int SelectedMovieId)
+        {
+            var actor = await _context.Actors.SingleOrDefaultAsync(a => a.ID == actorId);
+            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.ID == SelectedMovieId);
+            if (actor == null || movie == null)
+            {
+                return NotFound();
+            }
+            //TODO: check if movie has been added already to the actor
+
+            _context.MovieActors.Add(new MovieActor { ActorId = actorId, MovieId = SelectedMovieId });
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), actorId);
+        }
+
+        //GET: actors/add
         [HttpGet("[action]")]
         public IActionResult Add()
         {
             return View();
         }
-
-
     }
 }

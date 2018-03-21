@@ -11,9 +11,10 @@ using System;
 namespace pelis.Migrations
 {
     [DbContext(typeof(PelisContext))]
-    partial class PelisContextModelSnapshot : ModelSnapshot
+    [Migration("20180321201414_NewContext")]
+    partial class NewContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
