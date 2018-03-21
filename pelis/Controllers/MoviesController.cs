@@ -19,17 +19,42 @@ namespace pelis.Controllers
             _context = context;
         }
 
+        //GET: movies/
+        //no need to explicitly say action since it's the index
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Movies.ToListAsync());
         }
 
+        //GET: movies/id
+        [HttpGet("{movieId}")]
+        public async Task<IActionResult> Details(int movieId)
+        {
+            var movie = await _context.Movies
+                //related entities (two-levels)
+                .Include(m => m.ActorMovies)
+                .ThenInclude(am => am.Actor)
+                .SingleOrDefaultAsync(m => m.ID == movieId);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            
+            // get the actors in a nice collection for the View
+            movie.Actors = movie.ActorMovies.Select(x => x.Actor);
+            return View(movie);
+        }
+
+        //GET: movies/add
         [HttpGet("[action]")]
         public IActionResult Add()
         {
             return View();
         }
 
+        //POST: movies/add
         [HttpPost("[action]")]
         [ValidateAntiForgeryToken]
         //form data is bound to argument automatically

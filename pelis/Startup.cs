@@ -33,6 +33,8 @@ namespace pelis
         {
             if (env.IsDevelopment())
             {
+                //displaying generic errors for http status
+                app.UseStatusCodePages();
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
             }

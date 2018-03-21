@@ -24,7 +24,11 @@ namespace pelis.Models
             get { return DateTime.Today.Year - this.DOB.Year; }
         }
         
-        //movies the actor has appeared in
-        public List<MovieActor> Movies { get; set; }
+        //joint entity (what movies the actor has appeared in)
+        public IEnumerable<MovieActor> ActorMovies { get; set; }
+
+        //for View purposes
+        [NotMapped]
+        public IEnumerable<Movie> Movies { get; set; }
     }
 }

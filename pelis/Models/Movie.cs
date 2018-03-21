@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace pelis.Models
@@ -26,6 +27,11 @@ namespace pelis.Models
         // constraint: movie can have only one director
         public string Director { get; set; }
 
-        public List<MovieActor> Actors { get; set; }
+        //joint entity (what actors appear in this movie)
+        public IEnumerable<MovieActor> ActorMovies { get; set; }
+
+        //for View purposes
+        [NotMapped]
+        public IEnumerable<Actor> Actors { get; set; }
     }
 }

@@ -1,0 +1,16 @@
+﻿@model pelis.Models.Movie
+
+@{
+    ViewData["Title"] = "Movies";
+}
+
+@* string interpolation in a razor view *@
+<h2>@($"{Model.Title} ({Model.ReleaseYear})") </h2>
+<h4>@($"Directed by {Model.Director}") </h4>
+<h3>Starring: </h3>
+<ul>
+@foreach(var actor in Model.Actors)
+{
+    <li>@actor.FullName</li>
+}
+</ul>
