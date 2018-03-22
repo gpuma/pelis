@@ -74,5 +74,46 @@ namespace pelis.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        //GET: movies/7/edit
+        //named route
+        [HttpGet("{movieId}/[action]", Name = "MovieEdit")]
+        public async Task<IActionResult> Edit(int movieId)
+        {
+            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.ID == movieId);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            return View(movie);
+        }
+
+        [HttpPost("[action]")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Movie movie)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(movie);
+            }
+            _context.Update(movie);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost("[action]")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int ID)
+        {
+            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.ID == ID);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            //cascade delete by default for joint entity
+            _context.Remove(movie);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

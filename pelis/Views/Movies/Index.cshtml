@@ -5,6 +5,7 @@
 }
 
 <h2>All the movies</h2>
+<a asp-action="Add">Add new movie...</a>
 <table class="table">
     <thead>
         <tr>
@@ -24,6 +25,7 @@
             <td>@movie.Director</td>
             <td>
                 <a asp-controller="Movies" asp-action="Details" asp-route-movieId="@movie.ID">Details</a>
+                <a asp-route="MovieEdit" asp-route-movieId="@movie.ID">Edit</a>
             </td>
         </tr>
     }

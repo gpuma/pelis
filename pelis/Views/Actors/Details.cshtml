@@ -18,13 +18,13 @@
     <div class="col-md-4">
         <form asp-controller="MovieActor" asp-action="AddMovieToActor">
             @*preserves our actor ID*@
-            @Html.HiddenFor(vm => vm.SelectedActorId);
+            @Html.HiddenFor(vm => vm.SelectedActorId)
             <div class="form-group">
                 <select asp-for="SelectedMovieId" class="form-control">
                     @foreach (var movie in Model.AvailableMovies)
-            {
-                <option value="@movie.ID">@movie.Title</option>
-    }
+                    {
+                    <option value="@movie.ID">@movie.Title</option>
+                    }
                 </select>
             </div>
             <div class="form-group">

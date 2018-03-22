@@ -4,7 +4,6 @@
     ViewData["Title"] = Model.Movie.FullTitle;
 }
 
-@* string interpolation in a razor view *@
 <h2>@Model.Movie.FullTitle </h2>
 <h4>@($"Directed by {Model.Movie.Director}") </h4>
 <h3>Starring: </h3>
@@ -22,10 +21,10 @@
             @Html.HiddenFor(vm => vm.SelectedMovieId)
             <div class="form-group">
                 <select asp-for="SelectedActorId" class="form-control">
-                @foreach (var actor in Model.AvailableActors)
+                    @foreach (var actor in Model.AvailableActors)
                 {
                     <option value="@actor.ID">@actor.FullName</option>
-                }
+            }
                 </select>
             </div>
             <div class="form-group">
@@ -34,3 +33,7 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
