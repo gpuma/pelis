@@ -33,5 +33,12 @@ namespace pelis.Models
         //for View purposes
         [NotMapped]
         public IEnumerable<Actor> Actors { get; set; }
+
+        //IMDB style title
+        [NotMapped]
+        public string FullTitle
+        {
+            get { return $"{Title} ({ReleaseYear})"; }
+        }
     }
 }

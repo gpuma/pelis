@@ -1,16 +1,36 @@
-﻿@model pelis.Models.Movie
+﻿@model pelis.Models.MovieDetailsViewModel
 
 @{
-    ViewData["Title"] = "Movies";
+    ViewData["Title"] = Model.Movie.FullTitle;
 }
 
 @* string interpolation in a razor view *@
-<h2>@($"{Model.Title} ({Model.ReleaseYear})") </h2>
-<h4>@($"Directed by {Model.Director}") </h4>
+<h2>@Model.Movie.FullTitle </h2>
+<h4>@($"Directed by {Model.Movie.Director}") </h4>
 <h3>Starring: </h3>
 <ul>
-@foreach(var actor in Model.Actors)
-{
-    <li>@actor.FullName</li>
-}
+    @foreach (var actor in Model.Movie.Actors)
+    {
+        <li>@actor.FullName</li>
+    }
 </ul>
+<h3>Add movie to Actor:</h3>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="MovieActor" asp-action="AddMovieToActor">
+            @*preserves our movie ID*@
+            @Html.HiddenFor(vm => vm.SelectedMovieId)
+            <div class="form-group">
+                <select asp-for="SelectedActorId" class="form-control">
+                @foreach (var actor in Model.AvailableActors)
+                {
+                    <option value="@actor.ID">@actor.FullName</option>
+                }
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add actor to movie" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>

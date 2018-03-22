@@ -41,10 +41,14 @@ namespace pelis.Controllers
             {
                 return NotFound();
             }
-            
+            var vm = new MovieDetailsViewModel();
             // get the actors in a nice collection for the View
             movie.Actors = movie.ActorMovies.Select(x => x.Actor);
-            return View(movie);
+            vm.Movie = movie;
+            //actors that don't appear in the movie already
+            vm.AvailableActors = await _context.Actors.Except(movie.Actors).ToListAsync();
+            vm.SelectedMovieId = movieId;
+            return View(vm);
         }
 
         //GET: movies/add

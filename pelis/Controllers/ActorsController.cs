@@ -45,7 +45,9 @@ namespace pelis.Controllers
             actor.Movies = actor.ActorMovies.Select(x => x.Movie);
             vm.Actor = actor;
             //gets all movies where the actor doesn't appear in
-            vm.AllMovies = await _context.Movies.Except(actor.Movies).ToListAsync();
+            vm.AvailableMovies = await _context.Movies.Except(actor.Movies).ToListAsync();
+            //this will be needed by the Controller that handles adding movies to actors
+            vm.SelectedActorId = actorId;
             return View(vm);
         }
 
@@ -64,37 +66,6 @@ namespace pelis.Controllers
             _context.Add(actor);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        //POST: /actors/{actorId}/AddMovieToActor
-        [HttpPost("{actorId}/[action]")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddMovieToActor(int actorId, int SelectedMovieId)
-        {
-            var actor = await _context.Actors.SingleOrDefaultAsync(a => a.ID == actorId);
-            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.ID == SelectedMovieId);
-            if (actor == null || movie == null)
-            {
-                return NotFound();
-            }
-            //trying to add a movie already asssigned to an actor
-            if (MovieActorPairExists(actorId, SelectedMovieId))
-            {
-                return BadRequest();
-            }
-
-            _context.MovieActors.Add(new MovieActor { ActorId = actorId, MovieId = SelectedMovieId });
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index), actorId);
-        }
-
-        public bool MovieActorPairExists(int actorId, int movieId)
-        {
-            var moviePair = _context.MovieActors.SingleOrDefault(
-                ma => ma.ActorId == actorId && ma.MovieId == movieId
-            );
-            return moviePair != null;
         }
 
         //GET: actors/add
